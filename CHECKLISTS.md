@@ -31,3 +31,25 @@ Condensed checklists distilled from [`EMAIL-NEWSLETTER-PLAYBOOK.md`](./EMAIL-NEW
 - [ ] Most important number duplicated as real selectable HTML text, not only inside the hero image
 - [ ] Text contrast checked on light backgrounds (no illegible light-gray body text)
 - [ ] Final "read it cold" pass done as a skeptical recipient before shipping
+
+## Automation/sequence checklist
+
+- [ ] Trigger event and goal state explicitly defined before writing any copy
+- [ ] Each email in the sequence has one specific job — not generic "stay in touch" filler
+- [ ] Spacing matches the real decision timeline of the trigger (fast for abandonment, slower for nurture) — not one universal cadence
+- [ ] Explicit exit condition built in — sequence stops automatically once the reader completes the goal action
+- [ ] Personalization/branching based on real behavior data where the platform supports it, not just a first-name merge tag
+- [ ] Performance reviewed per-step, not only as one aggregate rate for the whole sequence
+
+## Deliverability audit checklist
+
+- [ ] SPF, DKIM, and DMARC verified correctly configured for the sending domain
+- [ ] DMARC enforcement level checked against aggregate reports before tightening
+- [ ] New/switched sending domains warmed up gradually — not sent at full volume immediately
+- [ ] Hard bounces suppressed immediately; soft-bounce patterns tracked
+- [ ] Unengaged subscribers re-engaged or suppressed on a recurring cadence
+- [ ] No purchased, rented, or scraped list ever used
+- [ ] Complaint rate monitored as its own metric, not inferred from open-rate decline alone
+- [ ] Genuine, easy-to-find unsubscribe mechanism present in every commercial send
+- [ ] Inbox placement checked across major providers, not just delivery/bounce status
+- [ ] Authentication and reputation re-audited after any sending-infrastructure change (new ESP, new domain, list import, volume spike)

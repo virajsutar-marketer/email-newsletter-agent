@@ -12,6 +12,8 @@
 4. [Newsletter Content Strategy](#4-newsletter-content-strategy)
 5. [Technical Build Discipline (MJML / Email-Safe HTML)](#5-technical-build-discipline-mjml--email-safe-html)
 6. [List Segmentation and Targeting Logic](#6-list-segmentation-and-targeting-logic)
+7. [Automation & Drip Sequence Design](#7-automation--drip-sequence-design)
+8. [Deliverability Audit](#8-deliverability-audit)
 
 ---
 
@@ -127,3 +129,51 @@ Three reusable, generalizable hero archetypes:
 - When repurposing one core idea across multiple segments, rewrite the hook and CTA per segment rather than reusing one framing everywhere.
 - Build a lightweight forward mechanic into content that is inherently more valuable to the reader's network than to the reader alone — that content type is free distribution if the ask to forward is explicit and easy.
 - Keep a standing awareness of which segment is reading before writing any "make the case to leadership" framing — target the copy at whoever in that specific segment actually owns that conversation.
+
+---
+
+## 7. Automation & Drip Sequence Design
+
+**A sequence is a system with a goal, not a batch of loosely related emails scheduled in a row — design the trigger, the goal, and the exit condition before writing a single subject line.**
+
+- **Every sequence needs an explicit trigger event** (a signup, a purchase, a cart abandonment, a trial start, a specific in-product action or its absence) and an explicit **goal state** (a purchase, an activation milestone, a renewal, a re-engagement) — a sequence with no clear goal tends to drift into generic "stay top of mind" content that doesn't actually move anyone toward a decision.
+- **Map the sequence stage-by-stage before writing copy**, each email with its own specific job:
+  - **Welcome/onboarding sequences**: set expectations immediately (what they'll get, how often), deliver one genuine quick win as early as possible (not just a feature tour), and progressively introduce depth rather than front-loading everything into email one.
+  - **Abandonment sequences** (cart, signup, trial): the first message should assume genuine forgetfulness or friction, not lost interest — lead with removing friction (a direct link back, an answer to a likely objection) before introducing incentive; save any discount/incentive for a later message in the sequence, not the first, so the sequence doesn't train the audience to abandon on purpose to earn a discount.
+  - **Nurture sequences** (post-signup, pre-purchase consideration): each email should advance one specific belief the reader needs before they're ready to buy (not just a feature at a time) — sequence the beliefs in the order a real buyer actually forms them, not in the order the product team thinks features are important.
+  - **Re-engagement/winback sequences**: the first message should acknowledge the gap plainly and ask a genuine question (what changed, what's not working) rather than opening with a hard pitch — a re-engagement sequence that leads with a sale before understanding why someone went quiet reads as tone-deaf and depresses response further.
+- **Space sequence emails by the real decision timeline of the trigger, not a fixed arbitrary cadence** — a cart-abandonment sequence's first touch should be fast (hours, not days) while intent is still warm; a post-purchase nurture sequence can space out over weeks since the decision timeline is naturally slower. Don't apply one universal spacing template to every sequence type.
+- **Build an explicit exit condition into every sequence** — a reader who completes the goal action (makes the purchase, activates the feature, renews) should stop receiving the rest of that sequence automatically. Continuing to send "don't forget to buy" messages to someone who already bought is a common, avoidable trust-eroding failure that signals the automation isn't actually watching real behavior.
+- **Personalize by real behavior/segment data, not just a first-name merge tag** — branch a sequence based on what the reader actually did (which page they viewed, which plan they're considering, which feature they haven't tried yet) wherever the platform supports it; a first-name-only "personalization" is a much weaker signal of relevance than content that responds to real behavior.
+- **Review sequence performance per-step, not just as one aggregate open/click rate for the whole sequence** — a sequence's overall numbers can look fine while one specific step is quietly underperforming and dragging down conversion at that stage; step-level data is what tells you which specific email to rewrite.
+
+---
+
+## 8. Deliverability Audit
+
+**A perfectly-written email that lands in spam has a 0% open rate — verify deliverability fundamentals before ever blaming subject lines or copy for weak performance.**
+
+### 8.1 Authentication (the technical baseline)
+
+- **Verify SPF, DKIM, and DMARC are all correctly configured for the sending domain** — these three DNS-level records are what let receiving mail servers verify the email is genuinely authorized to send on behalf of the domain and hasn't been tampered with in transit. Missing or misconfigured authentication is one of the most common, most fixable causes of inbox-placement problems, and it's a pure technical check independent of content quality.
+- **DMARC policy strictness should be tightened gradually, not jumped straight to strict enforcement** — moving from a monitoring-only policy to a strict reject/quarantine policy without first reviewing DMARC aggregate reports for legitimate mail streams that might fail can accidentally block the sender's own legitimate email; verify current policy state and reporting data before changing enforcement level.
+- **A sending domain (or subdomain) with no prior sending history has no reputation yet** — a brand-new domain or one that's switched ESPs needs a deliberate warm-up period (a gradually increasing send volume over days/weeks, starting with the most engaged segment of the list) before sending at full volume; jumping straight to full-volume sending on an unproven domain is a common cause of a new domain immediately landing in spam.
+
+### 8.2 Sender reputation and list hygiene
+
+- **Sender reputation is built from real recipient engagement (opens, clicks, replies) and real complaint/bounce signals over time** — a list padded with unengaged, invalid, or stale addresses drags down these aggregate signals even if a smaller, more engaged core of the list would perform well, because mailbox providers evaluate the sender's reputation in aggregate, not per-recipient.
+- **Regularly remove or suppress hard bounces immediately** (the address doesn't exist — continuing to send to it is a pure reputation cost with zero possible upside) and **track soft-bounce patterns** (temporary failures that recur repeatedly for the same address, which should eventually be treated the same as a hard bounce).
+- **Segment out and re-engage or suppress genuinely unengaged subscribers on a recurring cadence** (no opens/clicks over a meaningfully long window) rather than continuing to mail them indefinitely — a re-engagement attempt followed by suppression of non-responders protects the sending reputation that the engaged majority of the list depends on.
+- **Never purchase, rent, or scrape an email list** — every established email-marketing platform's terms of service and most jurisdictions' anti-spam law prohibit this, and a purchased list has zero genuine engagement history, which tanks sender reputation almost immediately and can get a sending domain blocklisted.
+- **Monitor complaint rate (recipients marking mail as spam) as its own metric**, not just inferred from open/click decline — mailbox providers weight explicit spam complaints heavily in reputation scoring, and a rising complaint rate on an otherwise-normal-looking campaign is a distinct, actionable signal (often pointing to send frequency being too high, or content mismatched to what the recipient actually signed up for) that a simple open-rate metric won't surface on its own.
+
+### 8.3 Content and structural deliverability factors
+
+- **Avoid classic spam-trigger patterns in subject lines and body copy** (excessive punctuation, all-caps phrases, certain flagged financial/health/urgency phrasing patterns commonly abused by real spam) — this is a lighter, faster-changing signal than authentication/reputation, but still worth a basic pass, especially for cold outbound or first-touch sends to a less-warmed segment.
+- **Maintain a healthy text-to-image ratio and avoid an email that's a single large image with almost no real text** — beyond the accessibility/image-blocking reasons covered in the technical build section, an image-only email is itself a pattern associated with spam and can affect filtering independent of its actual content quality.
+- **Include a genuine, easy-to-find unsubscribe mechanism in every commercial email** — beyond being a legal requirement in most jurisdictions, a difficult-to-find or broken unsubscribe path increases the odds a frustrated recipient marks the email as spam instead (which damages reputation, per §8.2) rather than just unsubscribing (which doesn't).
+
+### 8.4 Verification and monitoring cadence
+
+- **Check inbox placement across major mailbox providers periodically**, not just delivery/bounce status — a message can be technically "delivered" (accepted by the receiving server) while still landing in a spam or promotions folder rather than the primary inbox; delivery rate and inbox-placement rate are different metrics and both matter.
+- **Re-audit authentication and reputation signals after any sending-infrastructure change** (a new ESP, a new sending domain/subdomain, a significant volume increase, or a list-import event) — these are the events most likely to disturb an otherwise-healthy deliverability setup, and the same "verify after any change" discipline that applies to conversion tracking (see the companion `paid-ads-agent` repo §6) applies here.
